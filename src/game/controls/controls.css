@@ -1,0 +1,10 @@
+.control-button {
+    background-color: white;
+    border: 1px white;
+    border-radius: 0.1rem;
+    margin: 1rem;
+}
+
+.hidden {
+    display: none;
+}

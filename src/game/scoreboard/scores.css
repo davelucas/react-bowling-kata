@@ -1,0 +1,34 @@
+.scoreboard {
+    display: inline-flex;
+    justify-content: center;
+    border: 1px white solid;
+}
+
+.frame {
+    border-right: 1px white solid;
+}
+
+.frame:last-child {
+    border-right: none;
+}
+
+.rolls {
+    border-bottom: 1px white solid;
+    display: flex;
+    background-color: darkgreen;
+}
+
+.score {
+    text-align: center;
+    padding: 0.1rem;
+    background-color: forestgreen;
+}
+
+.roll {
+    border-right: 1px white solid;
+    padding: 0.1rem;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.roll:last-child { border-right: none; }
