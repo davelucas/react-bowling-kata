@@ -1,28 +1,27 @@
-import gameReducer from './gameReducer'
-import * as actions from './gameActions'
-import * as controls from './controls/controlsActions'
-import {List} from 'immutable'
+import { List } from 'immutable';
+import gameReducer from './gameReducer';
+import * as actions from './gameActions';
+import * as controls from './controls/controlsActions';
 
 describe('gameReducer', () => {
-
   it('should return the initial state', () => {
     expect(gameReducer(undefined, {})).toEqual(
       {
         frames: List(),
         scores: List(),
         bowling: false,
-        gameOver: false
-      }
-    )
-  })
+        gameOver: false,
+      },
+    );
+  });
 
   it('keeps the score at zero for a gutter game', () => {
-    let gutterFrame = {
+    const gutterFrame = {
       rolls: List([0, 0]),
       strike: false,
       spare: false,
       finished: true,
-    }
+    };
 
     expect(
       gameReducer(
@@ -41,19 +40,19 @@ describe('gameReducer', () => {
               rolls: List([0]),
               strike: false,
               spare: false,
-              finished: false
-            }
+              finished: false,
+            },
           ),
-          scores: List.of(0,0,0,0,0,0,0,0,0),
+          scores: List.of(0, 0, 0, 0, 0, 0, 0, 0, 0),
           bowling: false,
-          gameOver: false
+          gameOver: false,
 
         }, {
           type: actions.BOWL_FINISHED,
           results: {
-            down: 0
-          }
-        })
+            down: 0,
+          },
+        }),
     ).toEqual(
       {
         frames: List.of(
@@ -66,14 +65,14 @@ describe('gameReducer', () => {
           gutterFrame,
           gutterFrame,
           gutterFrame,
-          gutterFrame
+          gutterFrame,
         ),
-        scores: List.of(0,0,0,0,0,0,0,0,0,0),
+        scores: List.of(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         bowling: false,
-        gameOver: false
-      }
-    )
-  })
+        gameOver: false,
+      },
+    );
+  });
 
   it('scores 20 for a game of all ones', () => {
     let allOneFrame = {
@@ -508,12 +507,12 @@ describe('gameReducer', () => {
   })
 
   it('resets the state on a new game', () => {
-    let strikeFrame = {
+    const strikeFrame = {
       rolls: List([10]),
       strike: true,
       spare: false,
-      finished: true
-    }
+      finished: true,
+    };
 
     expect(
       gameReducer(
@@ -530,21 +529,21 @@ describe('gameReducer', () => {
             strikeFrame,
             strikeFrame,
             strikeFrame,
-            strikeFrame
+            strikeFrame,
           ),
           scores: List.of(30, 60, 90, 120, 150, 180, 210, 240, 270, 300),
           bowling: false,
-          gameOver: true
+          gameOver: true,
         }, {
-          type: controls.NEW_GAME
-        })
+          type: controls.NEW_GAME,
+        }),
     ).toEqual(
       {
         frames: List(),
         scores: List(),
         bowling: false,
-        gameOver: false
-      }
-    )
-  })
-})
+        gameOver: false,
+      },
+    );
+  });
+});

@@ -1,28 +1,29 @@
-export function simulatedBowl(pinState) {
-  return new Promise(resolve => {
-    setTimeout(function () {
+const simulatedBowl = pinState =>
+  new Promise((resolve) => {
+    setTimeout(() => {
       function staysUp() {
-        return Math.random() > 0.7
+        return Math.random() > 0.7;
       }
 
       function leftStanding(pins) {
-        return pins.filter(p => p.up).length
+        return pins.filter(p => p.up).length;
       }
 
-      let pinsLeftBeforeBowl = leftStanding(pinState)
+      const pinsLeftBeforeBowl = leftStanding(pinState);
 
-      let pins = Array(10).fill().map((_, i) => {
-          return {
-            'position': i + 1,
-            'up': pinState[i].up ? staysUp() : false
-          }
-        }
-      )
+      const pins = Array(10).fill().map((_, i) =>
+        ({
+          position: i + 1,
+          up: pinState[i].up ? staysUp() : false,
+        }),
+      );
 
       resolve({
-        'pins': pins,
-        'down': pinsLeftBeforeBowl - leftStanding(pins)
-      })
-    }, 500)
-  })
-}
+        pins,
+        down: pinsLeftBeforeBowl - leftStanding(pins),
+      });
+    }, 500);
+  });
+
+export default simulatedBowl;
+

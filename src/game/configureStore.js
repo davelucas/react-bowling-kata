@@ -1,18 +1,17 @@
-import {createStore, applyMiddleware, combineReducers} from 'redux'
-import {createLogger} from 'redux-logger'
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import thunkMiddleware from 'redux-thunk'
-import pinsReducer from './lane/pinsReducer'
-import gameReducer from './gameReducer'
+import thunkMiddleware from 'redux-thunk';
+import pinsReducer from './lane/pinsReducer';
+import gameReducer from './gameReducer';
 
-const loggerMiddleware = createLogger()
+const loggerMiddleware = createLogger();
 
 export default function configureStore(initialState) {
-
   const reducers = combineReducers({
     lane: pinsReducer,
-    game: gameReducer
-  })
+    game: gameReducer,
+  });
 
   return createStore(
     reducers,
@@ -20,8 +19,8 @@ export default function configureStore(initialState) {
     composeWithDevTools(
       applyMiddleware(
         loggerMiddleware,
-        thunkMiddleware
-      )
-    )
-  )
+        thunkMiddleware,
+      ),
+    ),
+  );
 }
