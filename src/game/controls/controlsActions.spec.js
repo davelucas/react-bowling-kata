@@ -1,12 +1,11 @@
-import configureStore from 'redux-mock-store'
-import * as actions from './controlsActions'
-import * as simulator from './bowlingSimulator'
-import {START_BOWLING} from './controlsActions'
-import {BOWL_FINISHED} from '../gameActions'
-import thunk from 'redux-thunk'
-import {List} from 'immutable'
+import thunk from 'redux-thunk';
+import { List } from 'immutable';
+import configureStore from 'redux-mock-store';
+import * as actions from './controlsActions';
+import * as simulator from './bowlingSimulator';
+import { BOWL_FINISHED } from '../gameActions';
 
-const mockStore = configureStore([thunk])
+const mockStore = configureStore([thunk]);
 
 describe('bowlABall', () => {
   const state = {
@@ -14,113 +13,110 @@ describe('bowlABall', () => {
       pins: [
         {
           position: 1,
-          up: true
+          up: true,
         },
         {
           position: 2,
-          up: true
+          up: true,
         },
         {
           position: 3,
-          up: true
+          up: true,
         },
         {
           position: 4,
-          up: true
+          up: true,
         },
         {
           position: 5,
-          up: true
+          up: true,
         },
         {
           position: 6,
-          up: true
+          up: true,
         },
         {
           position: 7,
-          up: true
+          up: true,
         },
         {
           position: 8,
-          up: true
+          up: true,
         },
         {
           position: 9,
-          up: true
+          up: true,
         },
         {
           position: 10,
-          up: true
-        }
-      ]
+          up: true,
+        },
+      ],
     },
     game: {
-      frames: List([List()])
-    }
-  }
+      frames: List([List()]),
+    },
+  };
 
   const mockedBowl = {
     pins: [
       {
         position: 1,
-        up: false
+        up: false,
       },
       {
         position: 2,
-        up: true
+        up: true,
       },
       {
         position: 3,
-        up: false
+        up: false,
       },
       {
         position: 4,
-        up: true
+        up: true,
       },
       {
         position: 5,
-        up: false
+        up: false,
       },
       {
         position: 6,
-        up: true
+        up: true,
       },
       {
         position: 7,
-        up: false
+        up: false,
       },
       {
         position: 8,
-        up: true
+        up: true,
       },
       {
         position: 9,
-        up: false
+        up: false,
       },
       {
         position: 10,
-        up: true
-      }
+        up: true,
+      },
     ],
-    down: 6
-  }
+    down: 6,
+  };
 
   it('starts bowling, simulates a bowl and then finishes', () => {
-
     const expectedActions = [
-      {type: START_BOWLING},
-      {type: BOWL_FINISHED, results: mockedBowl}
-    ]
+      { type: actions.START_BOWLING },
+      { type: BOWL_FINISHED, results: mockedBowl },
+    ];
 
-    const store = mockStore(state)
+    const store = mockStore(state);
 
-    simulator.simulatedBowl = jest.fn(() => {
-      return Promise.resolve(mockedBowl)
-    })
+    simulator.default = jest.fn(() => Promise.resolve(mockedBowl));
 
     return store.dispatch(actions.bowlABall()).then(() => {
-      expect(simulator.simulatedBowl).toBeCalledWith(state.lane.pins)
-      expect(store.getActions()).toEqual(expectedActions)
-    })
-  })
-})
+      expect(simulator.default).toBeCalledWith(state.lane.pins);
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+});

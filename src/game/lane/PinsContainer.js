@@ -1,10 +1,8 @@
-import {connect} from 'react-redux'
-import Pins from './Pins'
+import { connect } from 'react-redux';
+import Pins from './Pins';
 
-const mapStateToProps = (state) => {
-  return {
-    pins: state.lane.pins
-  }
-}
+const mapStateToProps = state => ({
+  pins: state.lane.pins,
+});
 
-export default connect(mapStateToProps)(Pins)
+export default connect(mapStateToProps)(Pins);

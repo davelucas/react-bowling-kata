@@ -1,41 +1,43 @@
-import {BOWL_FINISHED, FRAME_FINISHED} from './gameActions'
-import {START_BOWLING, NEW_GAME} from './controls/controlsActions'
-import {List} from 'immutable'
+import { List } from 'immutable';
+import { BOWL_FINISHED, FRAME_FINISHED } from './gameActions';
+import { START_BOWLING, NEW_GAME } from './controls/controlsActions';
 
-let startOfGame = {
+const startOfGame = {
   frames: List(),
   scores: List(),
   bowling: false,
-  gameOver: false
-}
+  gameOver: false,
+};
 
-export default function gameReducer(state = startOfGame, action) {
-
+const gameReducer = (state = startOfGame, action) => {
   switch (action.type) {
     case START_BOWLING:
       return {
         ...state,
-        bowling: true
-      }
+        bowling: true,
+      };
     case BOWL_FINISHED:
       return {
-        ...state
+        ...state,
         // TODO: Hint use action.results.down in here to affect the scores and other state
-      }
+      };
     case FRAME_FINISHED:
       return {
-        ...state
+        ...state,
         // TODO: Implement anything that needs to happen when the frame is finished
-      }
+      };
     case NEW_GAME:
       return {
         ...state,
         frames: List(),
         scores: List(),
         bowling: false,
-        gameOver: false
-      }
+        gameOver: false,
+      };
     default:
-      return state
+      return state;
   }
 }
+
+export default gameReducer;
+
