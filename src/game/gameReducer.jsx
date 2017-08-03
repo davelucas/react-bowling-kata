@@ -43,35 +43,43 @@ const isGameFinished = (frames) => {
   return false;
 };
 
-const calculateScores = frames => frames.map((frame, i) => {
-  if (frame.spare) {
-    const nextFrame = frames.get(i + 1);
-    if (undefined !== nextFrame) {
-      return 10 + nextFrame.rolls.first();
-    }
-    return undefined;
+const scoreWithSpareBonus = (frames, index) => {
+  const nextFrame = frames.get(index + 1);
+  if (undefined !== nextFrame) {
+    return 10 + nextFrame.rolls.first();
   }
+  return undefined;
+};
 
-  if (frame.strike) {
-    const nextFrame = frames.get(i + 1);
-
-    if (undefined !== nextFrame) {
-      const nextRoll = nextFrame.rolls.first();
-      if (nextFrame.rolls.size >= 2) {
-        return 10 + nextRoll + nextFrame.rolls.shift().first();
-      }
-      const secondNextFrame = frames.get(i + 2);
-      if (undefined !== secondNextFrame) {
-        return 10 + nextRoll + secondNextFrame.rolls.first();
-      }
-      return undefined;
+const scoreWithStrikeBonus = (frames, index) => {
+  const nextFrame = frames.get(index + 1);
+  if (undefined !== nextFrame) {
+    const nextRoll = nextFrame.rolls.first();
+    if (nextFrame.rolls.size >= 2) {
+      return 10 + nextRoll + nextFrame.rolls.shift().first();
+    }
+    const secondNextFrame = frames.get(index + 2);
+    if (undefined !== secondNextFrame) {
+      return 10 + nextRoll + secondNextFrame.rolls.first();
     }
   }
+  return undefined;
+};
 
-  return frame.rolls.size === 2 ? frame.rolls.reduce((a, b) => a + b) : undefined;
-})
-      .filter(frameScore => undefined !== frameScore)
-      .reduce((r, frameScore) => r.push(r.isEmpty() ? frameScore : r.last() + frameScore), List());
+const calculateScores = frames => frames
+  .map((frame, i) => {
+    if (frame.spare) {
+      return scoreWithSpareBonus(frames, i);
+    }
+
+    if (frame.strike) {
+      return scoreWithStrikeBonus(frames, i);
+    }
+
+    return frame.rolls.size === 2 ? frame.rolls.reduce((a, b) => a + b) : undefined;
+  })
+  .filter(frameScore => undefined !== frameScore)
+  .reduce((r, frameScore) => r.push(r.isEmpty() ? frameScore : r.last() + frameScore), List());
 
 const gameReducer = (state = startOfGame, action) => {
   switch (action.type) {
